@@ -1,0 +1,263 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>VisitorManagementForm</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/sweetalert.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <img src="~/Images/logo.png" height="100px" class="center-block" />
+        <img src="~/Images/slogan.png" class="center-block" />
+        <h1 style="text-align:center"><strong>Visitor Information Form</strong> </h1>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="col-md-12">
+                    <h2 style="text-align:center">Requestor Information</h2>
+                    <label for="location">Location :</label>
+                    <select id="location" onchange="colorChange('#location')" class="form-control"></select>
+                    <label for="business_unit">Business Unit:</label>
+                    <select id="business_unit" onchange="colorChange('#business_unit')" class="form-control"></select>
+                    <label for="requestorName">Requestor Name:</label>
+                    <input type="text" id="requestorName" onchange="colorChange('#requestorName')" class="form-control" />
+                    <label for="requestorEmail">Requestor Email:</label>
+                    <input type="text" id="requestorEmail" onchange="colorChange('#requestorEmail')"  class="form-control" />
+                    <label for="requestorMobile">Requestor Mobile:</label>
+                    <input type="text" id="requestorMobile" onchange="colorChange('#requestorMobile')"  class="form-control" />
+                    <label for="requestorDesignation">Requestor Designation :</label>
+                    <input type="text" id="requestorDesignation" onchange="colorChange('#requestorDesignation')"  class="form-control" />
+                    <label for="requestorDepartment">Requestor Department:</label>
+                    <input type="text" id="requestorDepartment" onchange="colorChange('#requestorDepartment')"  class="form-control" />
+                    <label for="dateVisit">Date Of Visit :</label>
+                    <input type="date" id="dateVisit"  onchange="colorChange('#dateVisit')"  class="form-control DateFrom" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-12">
+                    <h2 style="text-align:center">Visitor Information</h2>
+                    <label for="visitorName">Visitor Name:</label>
+                    <input type="text" id="visitorName" onchange="colorChange('#visitorName')"  class="form-control" />
+                    <label for="visitorEmail">Visitor Email:</label>
+                    <input type="text" id="visitorEmail" onchange="colorChange('#visitorEmail')"  class="form-control" />
+                    <label for="visitorMobile">Visitor Mobile:</label>
+                    <input type="text" id="visitorMobile" onchange="colorChange('#visitorMobile')"  class="form-control" />
+                    <label for="visitorDesignation">Visitor Designation :</label>
+                    <input type="text" id="visitorDesignation" onchange="colorChange('#visitorDesignation')"  class="form-control" />
+                    <label for="visitorCompany">Visitor Company :</label>
+                    <input type="text" id="visitorCompany" onchange="colorChange('#visitorCompany')"  class="form-control" />
+                    <label for="visitorNationality">Visitor Nationality:</label>
+                    <input type="text" id="visitorNationality" onchange="colorChange('#visitorNationality')"  class="form-control" />
+                    <label for="purposeVisit">Purpose of visiting SQ Group:</label>
+                    <input type="text" id="purposeVisit" onchange="colorChange('#purposeVisit')"  class="form-control" />
+                    <label for="travlechainaOrNot">
+                        Have you travelled to China in the last 30 days?
+                        If Yes, then in which city?
+                        Please specify:
+                    </label>
+                    <input type="text" id="travlechainaOrNot" onchange="colorChange('#travlechainaOrNot')"  class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row" style="text-align:center;margin-bottom:20px">
+            <br />
+            <button class="btn btn-success" id="submitTovisit"> SUBMIT</button>
+        </div>
+    </div>
+</body>
+</html>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/sweetalert.min.js"></script>
+<script type="text/javascript">
+    LoadLocation();
+    function colorChange(elem) {
+        $(elem).css({ "border-color": "#d3d3d3" });
+    }
+
+    function LoadBusinessUnit() {
+        $('#business_unit').css({ "border-color": "#d3d3d3" });
+        var urlpath = '@Url.Action("LoadBusinessUnit", "Home")';
+        $.ajax({
+            url: urlpath,
+            dataType: 'json',
+            type: "Post",
+            data: {},
+            async: true,
+            success: function (data) {
+                $('#business_unit').empty();
+                //$('#business_unit').append("<option value='0'>--Select Business Unit--</option>");
+                for (var i = 0; i < data.length; i++) {
+                    $("#business_unit").append($("<option></option>").val(data[i].BusinessUnitId)
+                        .html(data[i].BusinessUnitName));
+                }
+            }
+        });
+    }
+    function LoadLocation() {
+        $('#location').css({ "border-color": "#d3d3d3" });
+        var urlpath = '@Url.Action("LoadLocation", "Home")';
+        $.ajax({
+            url: urlpath,
+            dataType: 'json',
+            type: "Post",
+            data: {},
+            async: true,
+            success: function (data) {
+                $('#location').empty();
+                $('#location').append("<option value='0'>--Select Location --</option>");
+                for (var i = 0; i < data.length; i++) {
+                    $("#location").append($("<option></option>").val(data[i].LocationId)
+                        .html(data[i].LocatioName));
+                }
+            }
+        });
+    }
+    $("#location").change(function () {
+        if ($("#location").val() == 1) {
+            $('#business_unit').prop('disabled', 'disabled');
+            $("#business_unit").append($("<option></option>").val("0")
+                .html("SQ Central"));
+        } else if ($("#location").val() == 2) {
+            $('#business_unit').prop('disabled', false);
+            LoadBusinessUnit();
+        } else {
+            $('#business_unit').empty();
+        }
+    });
+
+    $("#submitTovisit").click(function () {
+        var check = true;
+        if ($("#location").val() == "0") {
+            check = false;
+            $('#location').css({ "border-color": "#FF0000" });
+        }
+        //else if ($("#location").val() == "2") {
+        //        check = false;
+        //        $('#business_unit').css({ "border-color": "#FF0000" });
+        //}
+        else if ($("#requestorName").val().length < 1) {
+            check = false;
+            $('#requestorName').css({ "border-color": "#FF0000" });
+        } else if ($("#requestorEmail").val().length < 1) {
+            check = false;
+            $('#requestorEmail').css({ "border-color": "#FF0000" });
+        } else if ($("#requestorMobile").val().length < 1) {
+            check = false;
+            $('#requestorMobile').css({ "border-color": "#FF0000" });
+        } else if ($("#requestorDesignation").val().length < 1) {
+            check = false;
+            $('#requestorDesignation').css({ "border-color": "#FF0000" });
+        } else if ($("#requestorDepartment").val().length < 1) {
+            check = false;
+            $('#requestorDepartment').css({ "border-color": "#FF0000" });
+        } else if ($("#dateVisit").val().length < 1) {
+            check = false;
+            $('#dateVisit').css({ "border-color": "#FF0000" });
+        } else if ($("#visitorName").val().length < 1) {
+            check = false;
+            $('#visitorName').css({ "border-color": "#FF0000" });
+        } else if ($("#visitorEmail").val().length < 1) {
+            check = false;
+            $('#visitorEmail').css({ "border-color": "#FF0000" });
+        }else if ($("#visitorMobile").val().length < 1) {
+            check = false;
+            $('#visitorMobile').css({ "border-color": "#FF0000" });
+        }else if ($("#visitorDesignation").val().length < 1) {
+            check = false;
+            $('#visitorDesignation').css({ "border-color": "#FF0000" });
+        }  else if ($("#visitorCompany").val().length < 1) {
+            check = false;
+            $('#visitorCompany').css({ "border-color": "#FF0000" });
+        } else if ($("#visitorNationality").val().length < 1) {
+            check = false;
+            $('#visitorNationality').css({ "border-color": "#FF0000" });
+        } else if ($("#purposeVisit").val().length < 1) {
+            check = false;
+            $('#purposeVisit').css({ "border-color": "#FF0000" });
+        } else if ($("#travlechainaOrNot").val().length < 1) {
+            check = false;
+            $('#travlechainaOrNot').css({ "border-color": "#FF0000" });
+        } else {
+            check = true;
+        }
+
+        if (check == true) {
+            SaveVisitorTODatabase();
+        } else {
+            swal({
+                title: 'Please Enter All the value',
+                type: 'error',
+                closeOnCancel: true
+            });
+        }
+        
+    });
+
+
+    function SaveVisitorTODatabase() {
+        var jsonObj = {};
+        jsonObj["BusinessUnitId"]= $("#business_unit").val();
+        jsonObj["LocationId"]= $("#location").val();
+        jsonObj["RequestorName"]= $("#requestorName").val();
+        jsonObj["RequestorEmail"]= $("#requestorEmail").val();
+        jsonObj["RequerstorMobile"]= $("#requestorMobile").val();
+        jsonObj["RequestorDesignation"]= $("#requestorDesignation").val();
+        jsonObj["RequestorDepartment"]= $("#requestorDepartment").val();
+        jsonObj["VisitDate"]=formatDate($('#dateVisit').val());;
+        jsonObj["VisitorName"]= $("#visitorName").val();
+        jsonObj["VisitorEmail"]= $("#visitorEmail").val();
+        jsonObj["VisitorDesignation"]= $("#visitorDesignation").val();
+        jsonObj["VisitorMobile"]= $("#visitorMobile").val();
+        jsonObj["VisitorCompany"] = $("#visitorCompany").val();
+        jsonObj["VisitorNationality"]= $("#visitorNationality").val();
+        jsonObj["PurposeOfVisitSQ"] = $("#purposeVisit").val();
+        jsonObj["Chainavisit"] = $("#travlechainaOrNot").val();
+
+        var urlpath = '@Url.Action("SaveVisitorForApprove", "Home")';
+                $.ajax({
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(jsonObj),
+                    dataType: 'json',
+                    url: urlpath,
+                    type: "Post",
+                    async: true,
+                    success: function(result) {
+                        if (result == true) {
+                            swal({
+                                title: 'Visitor Submit To Admin',
+                                type: 'success',
+                                closeOnCancel: true
+                            }, function () {
+                                  window.location.href = '@Url.Action("VisitorManagementForm", "Home")';
+                            });
+                        } else {
+                            swal({
+                                title: 'Some Error Occoured',
+                                type: 'error',
+                                closeOnCancel: true
+                            });
+                        }
+
+                    }
+                });
+    }
+     function formatDate(date) {
+                var d = new Date(date),
+                    month = '' + (d.getMonth() + 1),
+                    day = '' + d.getDate(),
+                    year = d.getFullYear();
+
+                if (month.length < 2)
+                    month = '0' + month;
+                if (day.length < 2)
+                    day = '0' + day;
+                return [year, month, day].join('-');
+    }
+</script>

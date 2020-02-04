@@ -1,0 +1,82 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Visitor</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+</head>
+<body class="container">
+    <div>
+        <h2 style="text-align:center"><strong>ALL APPROVED VISITOR REQUEST</strong></h2>
+    </div>
+    <hr />
+    <div id="getallvisitor">
+
+    </div>
+    <div class="modal fade" id="showmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h5 class="modal-title" id="myModalLabel">Visitor Information Request</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 modal_body_map">
+                            <div class="location-map" id="location-map">
+                                <div style="text-align:left" id="showcanvas"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 modal_body_end">
+
+                        </div>
+                    </div>
+                </div>
+                @*<div class="modal-footer" style="text-align:center">
+                        <button style="text-align:right" class="btn btn-success" id="printCapex">Print This Capex</button>
+                    </div>*@
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Content/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="~/Content/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript">
+     $(function () {
+            getAllVisitorApproval();
+        });
+
+
+    function getAllVisitorApproval() {
+
+        var urlpath = '@Url.Action("GetRequestVisitor", "Home")';
+            $.ajax({
+                url: urlpath,
+                type: "Post",
+                data: {},
+                async: true,
+                success: function(data) {
+                       if (data) {
+                            $('#getallvisitor').empty();
+                            $('#getallvisitor').html(data);
+                            $("#visitorTable").DataTable();
+
+                        }
+                    }
+                });
+    }
+
+   
+</script>

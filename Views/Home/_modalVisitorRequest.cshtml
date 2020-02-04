@@ -1,0 +1,68 @@
+﻿@model VisitorManagementForm.Models.VisitorRequestModel
+
+<table class="table table-striped" border="1">
+    <caption>Requestor Information</caption>
+    <tr>
+        <td>Request ID: </td>
+        <td><input type="text" id="requestId" class="form-control" disabled value="@Model.RequestorId" /></td>
+    </tr>
+    <tr>
+        <td>Requestor Name : </td>
+        <td>@Model.RequestorName</td>
+    </tr>
+    <tr>
+        <td>Requestor Email : </td>
+        <td>@Model.RequestorEmail</td>
+    </tr>
+    <tr>
+        <td>Requestor Department : </td>
+        <td>@Model.RequestorDepartment</td>
+    </tr>
+    <tr>
+        <td>Requestor Designation : </td>
+        <td>@Model.RequestorDesignation</td>
+    </tr>
+    <tr>
+        <td>Requestor Mobile : </td>
+        <td>@Model.RequerstorMobile</td>
+    </tr>
+    <tr>
+        <td>Date Of Visit : </td>
+        <td>@Model.VisitDate.ToString("dd MMM yyyy")</td>
+    </tr>
+</table>
+<table class="table table-striped" border="1">
+    <caption>Visitor Information</caption>
+    <tr>
+        <td>Visitor Name : </td>
+        <td>@Model.VisitorName</td>
+    </tr>
+    <tr>
+        <td>Visitor Email : </td>
+        <td>@Model.VisitorEmail</td>
+    </tr>
+    <tr>
+        <td>Visitor Designation : </td>
+        <td>@Model.VisitorDesignation</td>
+    </tr>
+    <tr>
+        <td>Visitor Company : </td>
+        <td>@Model.VisitorCompany</td>
+    </tr>
+    <tr>
+        <td>Visitor Mobile : </td>
+        <td>@Model.VisitorMobile</td>
+    </tr>
+    <tr>
+        <td>Visitor Nationality: </td>
+        <td>@Model.VisitorNationality</td>
+    </tr>
+    <tr>
+        <td>Purpose of visit SQ: </td>
+        <td>@Model.PurposeOfVisitSQ</td>
+    </tr>
+    <tr>
+        <td>Chaina Visit: </td>
+        <td>@Model.Chainavisit</td>
+    </tr>
+</table>

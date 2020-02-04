@@ -1,0 +1,55 @@
+﻿@model IEnumerable<VisitorManagementForm.Models.VisitorRequestModel>
+
+<div class="box">
+<table class="table table-striped"  id="visitorTable">
+    <thead>
+        <tr>
+            <th>SL</th>
+            <th>Visitor Name</th>
+            <th>Visitor Company</th>
+            <th>Visitor Designation</th>
+            <th>Requestor Name</th>
+            <th>Visit Date</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ int count = 1;}
+        @foreach (var item in Model)
+        {
+        <tr id="@item.RequestorId">
+            <td>@count</td>
+            <td>@item.VisitorName</td>
+            <td>@item.VisitorCompany</td>
+            <td>@item.VisitorDesignation</td>
+            <td>@item.RequestorName</td>
+            <td>@item.VisitDate.ToString("dd MMM yyyy")</td>
+            <td> <button type="button" class="btn  btn-block btn-success" data-toggle="modal" data-target="#showmodal" data-idkey="@item.RequestorId">Preview</button></td>
+        </tr>
+            count++;
+        }
+    </tbody>
+</table>
+</div>
+<script type="text/javascript">
+      $('#showmodal').on('show.bs.modal', function(event) {
+        var modalmap = $(event.relatedTarget);
+        getInvidualRequest(modalmap.data('idkey'));
+     });
+
+    function getInvidualRequest(primarykey) {
+         var urlpath = '@Url.Action("IndividualRequestShow", "Home")';
+            $.ajax({
+                data: { PrimaryKey: primarykey },
+                url: urlpath,
+                type: "Post",
+                async: true,
+                success: function(data) {
+                            if (data) {
+                                $('#showcanvas').empty();
+                                $('#showcanvas').append(data);
+                            }
+                        }
+                });
+    }
+</script>
